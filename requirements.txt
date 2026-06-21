@@ -1,0 +1,38 @@
+# Core web app dependencies
+flask
+pandas
+numpy
+scikit-learn
+joblib
+pyyaml
+reportlab
+
+# Testing
+pytest
+
+# Optional / Advanced (uncomment if needed)
+# sentence-transformers
+# requests
+# deep-translator
+# ollama
+
+# NLP & Text Processing (optional, requires C compiler on Windows)
+# nltk
+# spacy
+# scispacy
+# textblob
+# gensim
+
+# BERT & Transformers (optional, large download)
+# transformers
+# torch
+
+# Additional ML Libraries
+scipy
+
+# Ensemble & Advanced ML (optional)
+# xgboost>=1.7.0
+# imbalanced-learn>=0.10.0
+
+# Monitoring & Logging
+python-dotenv

@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+__MACOSX/
+Thumbs.db
+
+# Node modules (ALL locations)
+node_modules/
+
+# Next.js build output
+.next/
+
+# Large model files (too big for GitHub)
+*.pkl
+
+# Reports (generated at runtime)
+reports/*.pdf
+
+# Logs
+*.log
+
+# Misc
+.sixth/
