@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply antialiased;
+  }
+  ::selection {
+    @apply bg-teal-500/30 text-white;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08];
+  }
+  .glass-nav {
+    @apply bg-navy-950/70 backdrop-blur-2xl border-b border-white/[0.06];
+  }
+  .glass-card {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.07] rounded-2xl;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-400;
+  }
+}
+
+/* Mesh gradient backgrounds */
+.mesh-gradient-hero {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(20, 184, 166, 0.07) 0, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 85% 15%, rgba(59, 130, 246, 0.05) 0, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(20, 184, 166, 0.03) 0, transparent 70%);
+}
+
+.mesh-gradient-section {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 90%, rgba(20, 184, 166, 0.05) 0, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 90% 10%, rgba(59, 130, 246, 0.04) 0, transparent 50%);
+}
+
+/* Grid pattern overlay */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Range slider styling */
+input[type="range"] {
+  @apply appearance-none w-full h-2 rounded-full bg-white/10 outline-none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  @apply appearance-none w-5 h-5 rounded-full bg-teal-500 cursor-pointer shadow-lg shadow-teal-500/30;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  @apply bg-teal-400 shadow-teal-400/40;
+  transform: scale(1.15);
+}
+input[type="range"]::-moz-range-thumb {
+  @apply w-5 h-5 rounded-full bg-teal-500 cursor-pointer border-0 shadow-lg shadow-teal-500/30;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0b1329;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Number counter animation helper */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
