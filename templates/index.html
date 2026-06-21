@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediDiag Pro — Hospital Diagnosis Workspace</title>
+    <meta name="description" content="Advanced AI-powered medical diagnosis workspace for healthcare professionals. Predict diseases, analyze symptoms, and generate comprehensive patient reports.">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="app-shell">
+        <!-- ═══════════════════════════════════
+             SIDEBAR
+             ═══════════════════════════════════ -->
+        <aside class="app-sidebar">
+            <!-- Brand -->
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z"/></svg>
+                </div>
+                <div class="sidebar-brand-text">
+                    <span class="sidebar-brand-title">MediDiag Pro</span>
+                    <span class="sidebar-brand-subtitle">Clinical Workspace</span>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <p class="sidebar-desc">
+                Navigate between predictive analysis, advanced model diagnostics, patient history management, and comprehensive reporting.
+            </p>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="predictor">
+                    <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    Prediction Workspace
+                </button>
+                <button class="nav-item" data-view="advanced-dashboard">
+                    <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                    Advanced BI Dashboard
+                </button>
+                <button class="nav-item" data-view="medical-history">
+                    <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Medical History
+                </button>
+                <button class="nav-item" data-view="report">
+                    <svg class="nav-item-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    Custom Reports
+                </button>
+            </nav>
+
+            <!-- Data Sources -->
+            <div class="sidebar-info">
+                <h3 class="sidebar-info-title">Data Sources</h3>
+                <ul class="sidebar-info-list">
+                    <li>Structured symptom-disease dataset</li>
+                    <li>Disease descriptions library</li>
+                    <li>Clinical precaution guidance</li>
+                </ul>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="sidebar-disclaimer">
+                <strong>Clinical Notice</strong>
+                Educational tool only. Predictions should support clinical analysis, not replace professional medical judgment.
+            </div>
+
+            <!-- Version -->
+            <div class="sidebar-version">
+                <span class="sidebar-copyright">&copy; 2026 MediDiag</span>
+                <span class="version-badge">v2.0</span>
+            </div>
+        </aside>
+
+        <!-- ═══════════════════════════════════
+             MAIN CONTENT
+             ═══════════════════════════════════ -->
+        <main class="app-main">
+
+            <!-- ───────────────────────────────
+                 VIEW: PREDICTOR
+                 ─────────────────────────────── -->
+            <section class="view-section active" id="predictorView">
+                <header class="section-header">
+                    <div class="section-header-left">
+                        <span class="section-subtitle">Clinical Workflow</span>
+                        <h2 class="section-title">Disease Prediction Workspace</h2>
+                    </div>
+                    <div class="status-badge">AI-Powered Ensemble Prediction</div>
+                </header>
+
+                <div class="content-grid">
+                    <!-- Left: Form -->
+                    <article class="card">
+                        <div class="card-header">
+                            <div class="card-header-text">
+                                <span class="card-subtitle">Interactive Predictor</span>
+                                <h3 class="card-title">Patient Data & Symptom Entry</h3>
+                            </div>
+                        </div>
+
+                        <form id="patientDataForm" class="form-grid">
+                            <!-- Age -->
+                            <div class="form-field">
+                                <label class="form-label" for="patientAge">
+                                    <svg class="form-label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    Age
+                                </label>
+                                <input class="form-input" type="number" id="patientAge" name="age" min="0" max="120" placeholder="Patient age">
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="form-field">
+                                <label class="form-label" for="patientGender">
+                                    <svg class="form-label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                                    Gender
+                                </label>
+                                <select class="form-select" id="patientGender" name="gender">
+                                    <option value="">Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <!-- Weight -->
+                            <div class="form-field">
+                                <label class="form-label" for="patientWeight">
+                                    <svg class="form-label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                                    Weight <span class="form-label-hint">(kg)</span>
+                                </label>
+                                <input class="form-input" type="number" id="patientWeight" name="weight" min="0" max="500" placeholder="Weight in kg">
+                            </div>
+
+                            <!-- Height -->
+                            <div class="form-field">
+                                <label class="form-label" for="patientHeight">
+                                    <svg class="form-label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3H3v18h18V3z"/><path d="M9 3v18"/></svg>
+                                    Height <span class="form-label-hint">(cm)</span>
+                                </label>
+                                <input class="form-input" type="number" id="patientHeight" name="height" min="0" max="300" placeholder="Height in cm">
+                            </div>
+
+                            <!-- BMI (computed) -->
+                            <div class="form-field full-width">
+                                <label class="form-label" for="patientBMI">
+                                    <svg class="form-label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="14"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+                                    BMI <span class="form-label-hint">(auto-calculated)</span>
+                                </label>
+                                <input class="form-input" type="text" id="patientBMI" name="bmi" placeholder="Calculated from height & weight" readonly>
+                            </div>
+
+                            <!-- Ethnicity -->
+                            <div class="form-field full-width">
+                                <label class="form-label" for="patientEthnicity">
+                                    <svg class="form-label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                    Ethnicity <span class="form-label-hint">(optional)</span>
+                                </label>
+                                <input class="form-input" type="text" id="patientEthnicity" name="ethnicity" placeholder="Patient ethnicity">
+                            </div>
+
+                            <!-- Disease Details Section -->
+                            <div class="form-section-divider">
+                                <span class="form-section-title">Disease Details</span>
+                            </div>
+
+                            <!-- Severity -->
+                            <div class="form-field">
+                                <label class="form-label" for="diseaseSeverity">Severity</label>
+                                <select class="form-select" id="diseaseSeverity" name="severity">
+                                    <option value="">Select severity</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+
+                            <!-- Duration -->
+                            <div class="form-field">
+                                <label class="form-label" for="diseaseDuration">Duration</label>
+                                <input class="form-input" type="text" id="diseaseDuration" name="duration" placeholder="e.g., 2 days, 1 week">
+                            </div>
+
+                            <!-- Frequency -->
+                            <div class="form-field full-width">
+                                <label class="form-label" for="diseaseFrequency">Frequency</label>
+                                <select class="form-select" id="diseaseFrequency" name="frequency">
+                                    <option value="">Select frequency</option>
+                                    <option value="continuous">Continuous</option>
+                                    <option value="occasional">Occasional</option>
+                                </select>
+                            </div>
+                        </form>
+
+                        <!-- Symptom Selection -->
+                        <div class="form-section-divider mb-4">
+                            <span class="form-section-title">Symptom Selection</span>
+                        </div>
+
+                        <div class="symptom-selector">
+                            <!-- Search -->
+                            <div class="symptom-search-wrapper">
+                                <svg class="symptom-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input class="symptom-search" type="text" id="symptomSearch" placeholder="Search symptoms...">
+                            </div>
+
+                            <!-- Selected Tags -->
+                            <div class="symptom-tags" id="symptomTags"></div>
+
+                            <!-- Dropdown List -->
+                            <div class="symptom-dropdown" id="symptomDropdown"></div>
+
+                            <!-- Hidden native select for form compatibility -->
+                            <select id="symptomSelect" class="symptom-select-native" multiple></select>
+                        </div>
+
+                        <!-- Manual entry -->
+                        <div class="form-field mt-6">
+                            <label class="form-label" for="customSymptoms">Manual Symptom Entry</label>
+                            <textarea class="form-textarea" id="customSymptoms" placeholder="Type symptoms separated by commas, e.g., itching, skin_rash, nodal_skin_eruptions"></textarea>
+                            <span class="form-help">Enter additional symptoms not found in the search list above.</span>
+                        </div>
+
+                        <!-- Predict Button -->
+                        <button class="btn btn-primary btn-lg btn-block mt-6" id="predictButton">
+                            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            Run Prediction Analysis
+                        </button>
+
+                        <!-- Status (hidden, replaced by toast) -->
+                        <div id="statusMessage" class="info-box"></div>
+                    </article>
+
+                    <!-- Right: Results -->
+                    <article class="card">
+                        <div class="card-header">
+                            <div class="card-header-text">
+                                <span class="card-subtitle">Prediction Breakdown</span>
+                                <h3 class="card-title">Top 3 Disease Outcomes</h3>
+                            </div>
+                        </div>
+
+                        <div id="diagnosisResults" class="results-area results-empty">
+                            <div>
+                                <svg class="results-empty-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                <p>Run a prediction to see confidence analysis, disease summary, and precautionary guidance.</p>
+                            </div>
+                        </div>
+
+                        <div class="btn-group" id="reportActions">
+                            <button id="generateReportBtn" class="btn btn-success btn-lg hidden">
+                                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                Generate Report
+                            </button>
+                            <button id="downloadPdfBtn" class="btn btn-secondary btn-lg hidden">
+                                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Download PDF
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ───────────────────────────────
+                 VIEW: ADVANCED DASHBOARD
+                 ─────────────────────────────── -->
+            <section class="view-section" id="advancedDashboardView">
+                <header class="section-header">
+                    <div class="section-header-left">
+                        <span class="section-subtitle">Advanced Analytics</span>
+                        <h2 class="section-title">Model Performance Dashboard</h2>
+                    </div>
+                    <div class="status-badge">Live diagnostic metrics</div>
+                </header>
+
+                <div class="kpi-grid">
+                    <article class="kpi-card">
+                        <div class="kpi-icon blue">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <span class="kpi-label">Cross-Validation Accuracy</span>
+                        <strong class="kpi-value" id="kpiAccuracy" data-target="94.8">94.8%</strong>
+                    </article>
+
+                    <article class="kpi-card">
+                        <div class="kpi-icon teal">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                        </div>
+                        <span class="kpi-label">Model Weighted F1-Score</span>
+                        <strong class="kpi-value" id="kpiF1Score" data-target="0.93">0.93</strong>
+                    </article>
+
+                    <article class="kpi-card">
+                        <div class="kpi-icon amber">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        </div>
+                        <span class="kpi-label">Outlier Case Detection</span>
+                        <strong class="kpi-value" id="kpiOutliers" data-target="17">17 Cases flagged</strong>
+                    </article>
+
+                    <article class="kpi-card">
+                        <div class="kpi-icon violet">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <span class="kpi-label">Prediction Latency (Avg)</span>
+                        <strong class="kpi-value" id="kpiLatency" data-target="2.1">2.1 ms</strong>
+                    </article>
+                </div>
+
+                <div class="chart-grid">
+                    <article class="card">
+                        <div class="card-header">
+                            <div class="card-header-text">
+                                <span class="card-subtitle">Model Diagnostics</span>
+                                <h3 class="card-title">Outlier Probability Distribution</h3>
+                            </div>
+                        </div>
+                        <div class="chart-area">
+                            <canvas id="outlierScatterChart"></canvas>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <div class="card-header-text">
+                                <span class="card-subtitle">Feature Analysis</span>
+                                <h3 class="card-title">Top 5 Symptom Feature Importance</h3>
+                            </div>
+                        </div>
+                        <div class="chart-area">
+                            <canvas id="featureImportanceChart"></canvas>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ───────────────────────────────
+                 VIEW: MEDICAL HISTORY
+                 ─────────────────────────────── -->
+            <section class="view-section" id="medicalHistoryView">
+                <header class="section-header">
+                    <div class="section-header-left">
+                        <span class="section-subtitle">Patient Profile</span>
+                        <h2 class="section-title">Medical History</h2>
+                    </div>
+                </header>
+
+                <div class="history-card">
+                    <article class="card">
+                        <div class="card-header">
+                            <div class="card-header-text">
+                                <span class="card-subtitle">Health Records</span>
+                                <h3 class="card-title">Patient Medical Background</h3>
+                            </div>
+                        </div>
+
+                        <div class="history-grid">
+                            <div class="history-item">
+                                <div class="history-item-header">
+                                    <svg class="history-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                    <span class="history-item-title">Previous Diseases</span>
+                                </div>
+                                <p class="history-item-value" id="mh-prev-diseases">e.g., diabetes, hypertension</p>
+                            </div>
+
+                            <div class="history-item teal">
+                                <div class="history-item-header">
+                                    <svg class="history-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z"/></svg>
+                                    <span class="history-item-title">Surgeries</span>
+                                </div>
+                                <p class="history-item-value" id="mh-surgeries">e.g., appendectomy, bypass</p>
+                            </div>
+
+                            <div class="history-item emerald">
+                                <div class="history-item-header">
+                                    <svg class="history-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                                    <span class="history-item-title">Chronic Illnesses</span>
+                                </div>
+                                <p class="history-item-value" id="mh-chronic-illnesses">e.g., asthma, arthritis</p>
+                            </div>
+
+                            <div class="history-item violet">
+                                <div class="history-item-header">
+                                    <svg class="history-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+                                    <span class="history-item-title">Current Medications</span>
+                                </div>
+                                <p class="history-item-value" id="mh-medications">e.g., metformin, aspirin</p>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-6">
+                            <button id="editMedicalHistoryBtn" class="btn btn-primary btn-lg">
+                                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                Edit Medical History
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Medical History Edit Modal -->
+                <div id="editMedicalHistoryModal" class="modal-overlay">
+                    <div class="modal-content">
+                        <button id="closeMedicalHistoryModal" class="modal-close">&times;</button>
+                        <h3 class="modal-title">Edit Medical History</h3>
+                        <form id="modalMedicalHistoryForm" class="modal-form">
+                            <div class="form-field">
+                                <label class="form-label" for="modalPrevDiseases">Previous Diseases</label>
+                                <input class="form-input" type="text" id="modalPrevDiseases" name="prevDiseases" placeholder="e.g., diabetes, hypertension">
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label" for="modalSurgeries">Surgeries</label>
+                                <input class="form-input" type="text" id="modalSurgeries" name="surgeries" placeholder="e.g., appendectomy, bypass">
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label" for="modalChronicIllnesses">Chronic Illnesses</label>
+                                <input class="form-input" type="text" id="modalChronicIllnesses" name="chronicIllnesses" placeholder="e.g., asthma, arthritis">
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label" for="modalMedications">Current Medications</label>
+                                <input class="form-input" type="text" id="modalMedications" name="medications" placeholder="e.g., metformin, aspirin">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-4">
+                                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                                Save Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ───────────────────────────────
+                 VIEW: REPORT
+                 ─────────────────────────────── -->
+            <section class="view-section" id="reportView">
+                <header class="section-header">
+                    <div class="section-header-left">
+                        <span class="section-subtitle">Comprehensive Report</span>
+                        <h2 class="section-title">Patient Diagnosis Report</h2>
+                    </div>
+                    <div class="status-badge" id="reportStatus">Ready to generate</div>
+                </header>
+
+                <article class="card report-card">
+                    <div class="card-header">
+                        <div class="card-header-text">
+                            <span class="card-subtitle">Full Diagnosis Summary</span>
+                            <h3 class="card-title">Disease Prediction Report</h3>
+                        </div>
+                    </div>
+                    <div id="reportContent" class="report-content">
+                        <p class="report-placeholder">Run a prediction and save medical history, then generate the comprehensive report from the Prediction Workspace.</p>
+                    </div>
+                </article>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
