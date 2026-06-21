@@ -1,0 +1,7 @@
+{
+  "Flu": "Stay hydrated and rest. Consult a doctor if fever persists for more than 3 days.",
+  "Migraine": "Avoid bright lights and loud noise; rest in a quiet dark room. Seek care if pain is severe.",
+  "Pneumonia": "Seek medical attention for chest pain or difficulty breathing.",
+  "Healthy": "No concerning symptoms detected. Maintain a healthy lifestyle.",
+  "COVID-19": "Isolate, get tested, and contact a healthcare provider if symptoms worsen."
+}

@@ -1,0 +1,36 @@
+{
+  "preprocessing": {
+    "enabled": true,
+    "steps": [
+      "spell_correction",
+      "clinical_noise_removal",
+      "special_char_normalization",
+      "lowercasing",
+      "clinicalbert_tokenization"
+    ]
+  },
+  "models": {
+    "transformers": {
+      "clinicalbert_model_name": "emilyalsentzer/Bio_ClinicalBERT",
+      "max_token_length": 512,
+      "padding": "max_length",
+      "truncation": true
+    },
+    "scispacy": {
+      "enabled": true,
+      "model_name": "en_ner_bc5cdr_md"
+    }
+  },
+  "ner": {
+    "entity_types": [
+      "DISEASE",
+      "SYMPTOM",
+      "CHEMICAL"
+    ],
+    "fallback_method": "catalog_keyword_matching"
+  },
+  "data_sources": {
+    "structured_dataset_config": "config/config.yaml",
+    "mimic_join_enabled_from_config": true
+  }
+}

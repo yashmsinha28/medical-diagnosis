@@ -1,0 +1,22 @@
+{
+  "questions": [
+    "What are the symptoms of flu?",
+    "How to treat migraine?",
+    "What to do if I have pneumonia?",
+    "Am I healthy?",
+    "What are COVID-19 symptoms?",
+    "I have fever and cough, what could it be?",
+    "Headache and fatigue, possible causes?",
+    "Shortness of breath, when to seek help?"
+  ],
+  "answers": [
+    "Common symptoms of flu include fever, cough, fatigue, headache, and sore throat.",
+    "For migraine, rest in a quiet dark room, avoid bright lights and loud noise. If severe, consult a doctor.",
+    "Pneumonia requires medical attention, especially with chest pain or difficulty breathing.",
+    "If no symptoms match concerning conditions, you appear healthy. Maintain good habits.",
+    "COVID-19 symptoms include fever, cough, fatigue, loss of smell, and shortness of breath.",
+    "Fever and cough could indicate flu or respiratory infection. Monitor symptoms and consult if worsening.",
+    "Headache and fatigue might be migraine or general illness. Rest and hydrate.",
+    "Shortness of breath is serious; seek immediate medical help if persistent."
+  ]
+}

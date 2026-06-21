@@ -1,0 +1,23 @@
+datasets:
+  symptom_disease_prediction:
+    path: "data/clinical/dataset.csv"
+    target_column: "disease"
+    expected_feature_count: 132
+  specialist_mapping:
+    path: "data/clinical/symptom2disease_specialists.csv"
+  disease_descriptions:
+    path: "data/clinical/symptom_Description.csv"
+  disease_precautions:
+    path: "data/clinical/symptom_precaution.csv"
+  mimic_iii:
+    enabled: false
+    noteevents_path: "data/mimic-iii/NOTEEVENTS.csv.gz"
+    diagnoses_path: "data/mimic-iii/DIAGNOSES_ICD.csv.gz"
+
+models:
+  baseline_model_path: "models/disease_prediction_model.pkl"
+  ensemble_model_path: "models/ensemble_models.pkl"
+  symptom_columns_path: "models/symptom_columns.pkl"
+  specialist_mapping_path: "models/disease_specialist_mapping.json"
+
+reports_dir: "reports"
