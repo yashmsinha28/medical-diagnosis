@@ -81,21 +81,19 @@ def load_artifacts():
         model = load_model(model_path)
         symptom_columns = load_symptom_columns(symptom_columns_path)
 
-        disease_descriptions = {}
-        disease_precautions = {}
+        bundle = load_dataset_bundle(CONFIG_PATH)
+        disease_descriptions = bundle.disease_descriptions
+        # Load CSV-based precautions as the base, then layer advice.json on top
+        disease_precautions = bundle.disease_precautions
 
         advice_file = Path(ADVICE_PATH)
         if advice_file.exists():
             try:
                 with advice_file.open("r") as handle:
-                    disease_precautions = json.load(handle)
+                    advice_overrides = json.load(handle)
+                    disease_precautions.update(advice_overrides)
             except Exception:
-                disease_precautions = {}
-
-        bundle = load_dataset_bundle(CONFIG_PATH)
-        disease_descriptions = bundle.disease_descriptions
-        if not disease_precautions:
-            disease_precautions = bundle.disease_precautions
+                pass
 
         structured = bundle.structured
         df = structured.dataframe
