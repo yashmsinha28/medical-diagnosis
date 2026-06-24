@@ -1,34 +1,39 @@
 # 🏥 MediDiag Pro — AI-Powered Medical Diagnosis System
 
-### 🚀 Live Local URL: [127.0.0.1:3000](http://127.0.0.1:3000)
+### 🚀 Live Production URL: [medidiag-pro.onrender.com](https://medidiag-pro.onrender.com)
+### 🖥️ Local Development URL: [127.0.0.1:3000](http://127.0.0.1:3000)
 #### *Hospital-Grade Clinical Decision Support System Powered by Ensemble Machine Learning*
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-AA4A44?style=for-the-badge&logo=xgboost&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+![Gunicorn](https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white)
 
 ---
 
 ## 📌 Overview
 
-**MediDiag Pro** is a full-stack, hospital-grade AI web application that assists healthcare professionals in diagnosing diseases based on patient-reported symptoms. It leverages an **Ensemble Machine Learning Pipeline** — combining Random Forest, Decision Tree, and Naive Bayes classifiers — to deliver highly accurate diagnostic predictions backed by clinical data.
+**MediDiag Pro** is a full-stack, hospital-grade AI web application that assists healthcare professionals in diagnosing diseases based on patient-reported symptoms. It leverages an **Ensemble Machine Learning Pipeline** — combining Random Forest, XGBoost, Support Vector Machine (SVM), and Logistic Regression classifiers through Soft-Voting — to deliver highly accurate diagnostic predictions backed by clinical data.
 
-The system features a modern glassmorphism-based UI, real-time toast notifications, interactive analytics dashboards, comprehensive PDF report generation, and a secure medical history management module — all designed for seamless deployment in clinical environments.
+The system features a modern glassmorphism-based UI, real-time toast notifications, interactive analytics dashboards, comprehensive PDF report generation, and a secure medical history management module — all designed for seamless deployment in clinical environments. The application is **deployed live on Render** with automated CI/CD via GitHub integration.
 
 ---
 
 ## 💼 Business Impact & Clinical Value
 
-* **Multi-Model Ensemble Accuracy:** Combines three independent classifiers through majority voting, significantly reducing misdiagnosis risk compared to single-model approaches.
+* **Multi-Model Ensemble Accuracy:** Combines four independent classifiers through soft-voting, significantly reducing misdiagnosis risk compared to single-model approaches.
 * **Instant Clinical Insights:** Converts manual symptom-to-disease mapping (which takes hours of reference) into milliseconds of automated inference.
 * **Comprehensive Reporting:** Generates downloadable PDF reports containing patient data, symptom analysis, predictions, descriptions, and precautionary advice — ready for patient handoff.
 * **Medical History Tracking:** Persists patient medical history across sessions, enabling longitudinal tracking of chronic conditions, medications, and surgical history.
 * **Hospital-Ready Design:** Premium glassmorphism UI with responsive layouts, designed to be deployed on hospital kiosks, tablets, and clinical workstations.
+* **Cloud-Deployed & Always Available:** Hosted on Render with automated model training during build — no manual model file management required.
 
 ---
 
@@ -51,12 +56,15 @@ The system features a modern glassmorphism-based UI, real-time toast notificatio
 | :--- | :--- | :--- |
 | **Frontend** | HTML5, CSS3 (Glassmorphism), JavaScript ES6+ | Hospital-grade responsive clinical interface |
 | **Backend** | Python 3.10+, Flask, Jinja2 | Lightweight high-performance web framework |
-| **ML Pipeline** | scikit-learn (Random Forest, Decision Tree, Naive Bayes) | Ensemble disease classification engine |
-| **Data Processing** | Pandas, NumPy | Clinical dataset ingestion and feature engineering |
+| **ML Pipeline** | scikit-learn (Random Forest, SVM, Logistic Regression), XGBoost | 4-classifier ensemble disease classification engine |
+| **Data Balancing** | imbalanced-learn (SMOTE) | Synthetic oversampling to handle class imbalance |
+| **Data Processing** | Pandas, NumPy, SciPy | Clinical dataset ingestion and feature engineering |
 | **Visualization** | Chart.js | Interactive analytics dashboards and KPI rendering |
 | **Iconography** | Lucide Icons CDN | Scalable vector medical iconography system |
 | **Typography** | Google Fonts (Inter) | Professional medical-grade typographic system |
 | **PDF Engine** | ReportLab | Clinical-grade PDF report generation |
+| **Production Server** | Gunicorn (with `--preload`) | WSGI HTTP server for concurrent request handling |
+| **Cloud Hosting** | Render (Free Tier) | Automated CI/CD deployment with GitHub integration |
 
 ---
 
@@ -64,28 +72,30 @@ The system features a modern glassmorphism-based UI, real-time toast notificatio
 
 ```mermaid
 graph TD
-    A["🧑‍⚕️ Healthcare Professional"] -->|"1. Selects Symptoms & Patient Data"| B("Flask Frontend — Glassmorphism UI")
+    A["Healthcare Professional"] -->|"1. Selects Symptoms & Patient Data"| B("Flask Frontend — Glassmorphism UI")
     B -->|"2. POST /api/predict"| C{"Flask Backend — app_flask.py"}
     C -->|"3. Binary Vector Encoding"| D["Pandas Feature Engineering"]
-    D -->|"4. Parallel Inference"| E["Ensemble ML Pipeline"]
+    D -->|"4. StandardScaler + SMOTE"| E["Ensemble ML Pipeline"]
     E -->|"Random Forest"| F["Classifier 1"]
-    E -->|"Decision Tree"| G["Classifier 2"]
-    E -->|"Naive Bayes"| H["Classifier 3"]
-    F & G & H -->|"5. Majority Voting"| I["Final Prediction + Confidence"]
-    I -->|"6. Disease Metadata Lookup"| J[("Clinical CSV Database")]
-    J -->|"7. Description + Precautions"| C
-    C -->|"8. JSON Response"| B
-    B -->|"9. Animated Results Rendering"| A
+    E -->|"XGBoost"| G["Classifier 2"]
+    E -->|"SVM"| H["Classifier 3"]
+    E -->|"Logistic Regression"| I["Classifier 4"]
+    F & G & H & I -->|"5. Soft-Voting"| J["Final Prediction + Confidence"]
+    J -->|"6. LabelEncoder Decode"| K["Disease Name Resolution"]
+    K -->|"7. Disease Metadata Lookup"| L[("Clinical CSV Database")]
+    L -->|"8. Description + Precautions"| C
+    C -->|"9. JSON Response"| B
+    B -->|"10. Animated Results Rendering"| A
 
-    C -->|"GET /api/report"| K["PDF Report Generator — ReportLab"]
-    K -->|"10. Downloadable PDF"| A
+    C -->|"GET /api/report"| M["PDF Report Generator — ReportLab"]
+    M -->|"11. Downloadable PDF"| A
 
     style A fill:#3b82f6,stroke:#1d4ed8,color:#fff
     style B fill:#0f172a,stroke:#334155,color:#fff
     style C fill:#14b8a6,stroke:#0d9488,color:#fff
     style E fill:#8b5cf6,stroke:#6d28d9,color:#fff
-    style I fill:#10b981,stroke:#059669,color:#fff
-    style K fill:#f59e0b,stroke:#d97706,color:#fff
+    style J fill:#10b981,stroke:#059669,color:#fff
+    style M fill:#f59e0b,stroke:#d97706,color:#fff
 ```
 
 ---
@@ -97,7 +107,8 @@ medical-diagnosis/
 ├── app_flask.py                 # Flask application server & API routes
 ├── train.py                     # Single-model training script
 ├── train_ensemble.py            # Ensemble model training pipeline
-├── wsgi.py                      # Production WSGI entry point
+├── wsgi.py                      # Production WSGI entry point (synchronous artifact loading)
+├── render.yaml                  # Render cloud deployment configuration
 ├── requirements.txt             # Python dependencies
 │
 ├── templates/
@@ -108,12 +119,21 @@ medical-diagnosis/
 │   └── script.js                # Client-side logic & Chart.js rendering
 │
 ├── core/                        # Core business logic modules
-├── config/                      # Application configuration
+│   ├── ensemble_classifier.py   # 4-model ensemble builder (RF, XGB, SVM, LR)
+│   ├── clinical_data.py         # Clinical dataset loading & bundling
+│   ├── feature_extraction.py    # Symptom-to-vector binary encoding
+│   ├── model_handler.py         # Model serialization (save/load via joblib)
+│   └── ...                      # Additional NLP & preprocessing modules
 │
-├── models/
-│   ├── ensemble_models.pkl      # Trained ensemble classifier (generated)
-│   ├── disease_prediction_model.pkl  # Single model (generated)
-│   ├── symptom_columns.pkl      # Feature column mapping
+├── config/
+│   ├── config.yaml              # Dataset paths & model configuration
+│   └── advice.json              # Disease precautionary advice overrides
+│
+├── models/                      # Generated ML artifacts (excluded from Git)
+│   ├── ensemble_models.pkl      # Full ensemble classifier bundle
+│   ├── disease_prediction_model.pkl  # Baseline voting model for app_flask.py
+│   ├── label_encoder.pkl        # LabelEncoder to decode predictions to disease names
+│   ├── symptom_columns.pkl      # Feature column mapping (131 symptoms)
 │   └── disease_specialist_mapping.json
 │
 ├── data/
@@ -158,7 +178,7 @@ pip install -r requirements.txt
 ```bash
 python train_ensemble.py
 ```
-> This generates `ensemble_models.pkl` and `disease_prediction_model.pkl` inside the `models/` directory.
+> This generates `ensemble_models.pkl`, `disease_prediction_model.pkl`, and `label_encoder.pkl` inside the `models/` directory.
 
 ### 5. Run the Application
 ```bash
@@ -181,17 +201,20 @@ http://127.0.0.1:3000
 | **Total Diseases** | 41 classifiable conditions |
 | **Training Records** | 4,920 patient-symptom mappings |
 | **Feature Encoding** | Binary vector (one-hot per symptom) |
+| **Data Balancing** | SMOTE (Synthetic Minority Over-sampling Technique) |
+| **Feature Scaling** | StandardScaler normalization |
 
 ### Ensemble Architecture
-The system uses a **Soft-Voting Ensemble** that combines three independently trained classifiers:
+The system uses a **Soft-Voting Ensemble** that combines four independently trained classifiers:
 
 | Classifier | Algorithm | Strengths |
 | :--- | :--- | :--- |
-| **Classifier 1** | Random Forest | Handles high-dimensional sparse features, resistant to overfitting |
-| **Classifier 2** | Decision Tree | Captures explicit symptom-disease decision boundaries |
-| **Classifier 3** | Gaussian Naive Bayes | Provides probabilistic confidence scores, fast inference |
+| **Classifier 1** | Random Forest (400 estimators) | Handles high-dimensional sparse features, resistant to overfitting |
+| **Classifier 2** | XGBoost (350 estimators) | Gradient-boosted trees with superior generalization and speed |
+| **Classifier 3** | Support Vector Machine (RBF kernel) | Effective in high-dimensional spaces with balanced class weighting |
+| **Classifier 4** | Logistic Regression (L-BFGS solver) | Provides calibrated probabilistic confidence scores |
 
-The final prediction is determined through **majority voting** with confidence scores calculated from the ensemble's probability distribution.
+The final prediction is determined through **soft-voting** — averaging the probability distributions from all four classifiers to produce a consensus prediction with calibrated confidence scores. A `LabelEncoder` decodes integer predictions back to human-readable disease names.
 
 ---
 
@@ -200,13 +223,14 @@ The final prediction is determined through **majority voting** with confidence s
 | Feature | Description |
 | :--- | :--- |
 | 🔍 **Searchable Symptom Selector** | Type-ahead search with tag-based multi-select across 131 symptoms |
-| 🤖 **Ensemble ML Predictions** | Top-3 disease predictions with confidence percentages |
+| 🤖 **4-Model Ensemble Predictions** | Top-3 disease predictions with confidence percentages via soft-voting |
 | 📊 **Analytics Dashboard** | Outlier detection scatter plot & feature importance bar chart |
 | 📝 **PDF Report Generation** | One-click downloadable clinical reports with full patient context |
 | 🏥 **Medical History Manager** | Persistent tracking of conditions, surgeries, medications |
 | 📱 **Responsive Design** | Optimized for desktop monitors, tablets, and clinical kiosks |
 | 🔔 **Toast Notifications** | Real-time feedback system (success, error, warning, info) |
 | ✨ **Animated Confidence Bars** | Smooth visual rendering of prediction confidence levels |
+| ☁️ **Cloud Deployed** | Live on Render with automated CI/CD from GitHub |
 
 ---
 
@@ -221,11 +245,32 @@ The final prediction is determined through **majority voting** with confidence s
 
 ## 🚀 Production Deployment
 
-For production environments, use a WSGI server instead of Flask's development server:
+### Cloud Deployment (Render)
+
+The application is configured for automated deployment on **Render** via `render.yaml`:
+
+```yaml
+services:
+  - type: web
+    name: medidiag-pro
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt && python train_ensemble.py"
+    startCommand: "gunicorn wsgi:app --bind 0.0.0.0:$PORT --preload --timeout 120"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: PYTHONIOENCODING
+        value: utf-8
+```
+
+> **Key Design Decision:** Model `.pkl` files are excluded from Git (too large for GitHub's 100MB limit). Instead, `train_ensemble.py` runs during Render's build phase, training the models directly on the server. The `--preload` flag ensures artifacts are loaded synchronously before Gunicorn forks worker processes.
+
+### Local Production Server
 
 ```bash
 # Using Gunicorn (Linux/Mac)
-gunicorn wsgi:app --bind 0.0.0.0:3000 --workers 4
+gunicorn wsgi:app --bind 0.0.0.0:3000 --workers 4 --preload --timeout 120
 
 # Using Waitress (Windows)
 waitress-serve --host=0.0.0.0 --port=3000 wsgi:app
