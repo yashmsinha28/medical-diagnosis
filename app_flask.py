@@ -28,6 +28,7 @@ CONFIG_PATH = "config/config.yaml"
 ADVICE_PATH = "config/advice.json"
 
 model = None
+label_encoder = None
 symptom_columns = []
 disease_descriptions = {}
 disease_precautions = {}
@@ -67,7 +68,7 @@ def collect_dataset_status(config):
 
 
 def load_artifacts():
-    global model, symptom_columns, disease_descriptions, disease_precautions, dataset_status
+    global model, label_encoder, symptom_columns, disease_descriptions, disease_precautions, dataset_status
     global dashboard_summary, artifacts_ready
 
     try:
@@ -79,6 +80,10 @@ def load_artifacts():
         symptom_columns_path = model_cfg.get("symptom_columns_path", DEFAULT_SYMPTOM_COLUMNS_PATH)
 
         model = load_model(model_path)
+        # Load the label encoder to decode integer predictions to disease names
+        label_encoder_path = Path("models/label_encoder.pkl")
+        if label_encoder_path.exists():
+            label_encoder = load_model(str(label_encoder_path))
         symptom_columns = load_symptom_columns(symptom_columns_path)
 
         bundle = load_dataset_bundle(CONFIG_PATH)
@@ -203,6 +208,10 @@ def predict():
         input_df = pd.DataFrame([input_vec], columns=symptom_columns)
         probabilities = model.predict_proba(input_df)[0]
         classes = model.classes_
+
+        # Decode integer class labels back to disease names if label encoder is available
+        if label_encoder is not None:
+            classes = label_encoder.inverse_transform(classes)
 
         top_indices = probabilities.argsort()[::-1][:3]
         predictions = []

@@ -127,6 +127,8 @@ def save_outputs(builder, bundle, metrics, predictions):
     builder.save_models(MODELS_DIR)
     # Also save the ensemble voting model as the baseline model that app_flask.py loads
     save_model(builder.ensemble, MODELS_DIR / "disease_prediction_model.pkl")
+    # Save the label encoder so app_flask.py can decode integer predictions to disease names
+    save_model(builder.label_encoder, MODELS_DIR / "label_encoder.pkl")
     save_symptom_columns(bundle.structured.feature_names, MODELS_DIR / "symptom_columns.pkl")
     save_specialist_mapping(bundle.disease_specialists, MODELS_DIR / "disease_specialist_mapping.json")
 
