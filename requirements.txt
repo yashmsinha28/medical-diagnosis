@@ -31,9 +31,9 @@ pytest
 # Additional ML Libraries
 scipy
 
-# Ensemble & Advanced ML (optional)
-# xgboost>=1.7.0
-# imbalanced-learn>=0.10.0
+# Ensemble & Advanced ML
+xgboost>=1.7.0
+imbalanced-learn>=0.10.0
 
 # Monitoring & Logging
 python-dotenv

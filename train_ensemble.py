@@ -145,7 +145,7 @@ def save_outputs(builder, bundle, metrics, predictions):
     if bundle.mimic_notes is not None and not bundle.mimic_notes.empty:
         bundle.mimic_notes.head(250).to_csv(REPORTS_DIR / "mimic_join_preview.csv", index=False)
 
-    print(f"\n✅ Saved training report to {REPORTS_DIR / 'clinical_training_report.json'}")
+    print(f"\n[OK] Saved training report to {REPORTS_DIR / 'clinical_training_report.json'}")
 
 
 def main():
