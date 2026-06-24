@@ -125,6 +125,8 @@ def save_outputs(builder, bundle, metrics, predictions):
     REPORTS_DIR.mkdir(exist_ok=True)
 
     builder.save_models(MODELS_DIR)
+    # Also save the ensemble voting model as the baseline model that app_flask.py loads
+    save_model(builder.ensemble, MODELS_DIR / "disease_prediction_model.pkl")
     save_symptom_columns(bundle.structured.feature_names, MODELS_DIR / "symptom_columns.pkl")
     save_specialist_mapping(bundle.disease_specialists, MODELS_DIR / "disease_specialist_mapping.json")
 
