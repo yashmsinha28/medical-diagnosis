@@ -54,7 +54,7 @@ class MedicalDiagnosisAssistant:
             symptom_catalog=self.symptom_catalog,
         )
 
-        print("✅ Medical Diagnosis Assistant initialized")
+        print("[OK] Medical Diagnosis Assistant initialized")
 
     def _load_config(self) -> Dict:
         try:

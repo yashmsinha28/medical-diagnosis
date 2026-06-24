@@ -70,7 +70,7 @@ class EnsembleClassifierBuilder:
         k_neighbors = min(5, min_class_count - 1)
         self.smote = SMOTE(random_state=self.random_state, k_neighbors=k_neighbors)
         X_balanced, y_balanced = self.smote.fit_resample(X_scaled, y_train)
-        print(f"✅ SMOTE applied: {len(y_train)} -> {len(y_balanced)} samples")
+        print(f"[OK] SMOTE applied: {len(y_train)} -> {len(y_balanced)} samples")
         return X_balanced, y_balanced
 
     def build_individual_models(self, X_train, y_train, use_smote: bool = True):
@@ -268,7 +268,7 @@ class EnsembleClassifierBuilder:
         }
         with (output_dir / "ensemble_models.pkl").open("wb") as handle:
             pickle.dump(payload, handle)
-        print(f"✅ Models saved to {output_dir / 'ensemble_models.pkl'}")
+        print(f"[OK] Models saved to {output_dir / 'ensemble_models.pkl'}")
 
     def load_models(self, path: str | Path):
         model_path = Path(path)
@@ -307,4 +307,4 @@ class EnsembleClassifierBuilder:
         if len(getattr(self.label_encoder, "classes_", [])) == 0 and self.class_names:
             self.label_encoder.fit(self.class_names)
 
-        print(f"✅ Models loaded from {model_path}")
+        print(f"[OK] Models loaded from {model_path}")

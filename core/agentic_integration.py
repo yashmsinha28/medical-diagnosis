@@ -37,7 +37,7 @@ def initialize_pipeline():
     if AGENTIC_AVAILABLE:
         try:
             pipeline = AgenticPipeline()
-            print("✅ Agentic Pipeline initialized")
+            print("[OK] Agentic Pipeline initialized")
             return True
         except Exception as e:
             print(f"❌ Agentic Pipeline initialization failed: {e}")

@@ -387,7 +387,7 @@ class HybridVectorizer:
             return
         self.tfidf_vectorizer.fit(corpus)
         self.tfidf_fitted = True
-        print(f"✅ TF-IDF fitted on {len(corpus)} documents")
+        print(f"[OK] TF-IDF fitted on {len(corpus)} documents")
 
     def get_tfidf_vector(self, text: str) -> np.ndarray:
         if not self.tfidf_fitted:
@@ -447,7 +447,7 @@ class SemanticSearchEngine:
             except Exception as exc:
                 print(f"⚠️  Error vectorizing disease {disease_name}: {exc}")
 
-        print(f"✅ Built disease database with {len(self.disease_vectors)} diseases")
+        print(f"[OK] Built disease database with {len(self.disease_vectors)} diseases")
 
     def search_similar_diseases(self, user_symptoms: str, top_k: int = 3) -> List:
         try:

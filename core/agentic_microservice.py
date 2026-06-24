@@ -40,7 +40,7 @@ class SymptomPredictionAgent:
                 if self.builder.validate_prediction_ready():
                     self.loaded = True
                     self.model_available = True
-                    print(f"✅ {self.agent_id} initialized")
+                    print(f"[OK] {self.agent_id} initialized")
                 else:
                     self.loaded = False
                     self.model_available = False
