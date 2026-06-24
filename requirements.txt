@@ -1,5 +1,6 @@
 # Core web app dependencies
 flask
+gunicorn
 pandas
 numpy
 scikit-learn
